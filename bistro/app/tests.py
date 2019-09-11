@@ -26,7 +26,7 @@ def create_image(storage, filename, size=(100, 100), image_mode='RGB', image_for
 class AddDishTests(TestCase):
     def test_required_params(self):
         self.assertEquals(Dish.objects.count(), 0)
-        response = self.client.post('/api/add_dash', required_params, follow=True)
+        response = self.client.post('/api/add_dish', required_params, follow=True)
 
         self.assertEquals(response.status_code, 201)
         self.assertEquals(Dish.objects.count(), 1, 'New dish record not created')
@@ -37,7 +37,7 @@ class AddDishTests(TestCase):
     def test_required_params_plus_allergen(self):
         self.assertEquals(Dish.objects.count(), 0)
         required_params.update({'allergen': ['Арахис']})
-        response = self.client.post('/api/add_dash', required_params, follow=True)
+        response = self.client.post('/api/add_dish', required_params, follow=True)
 
         self.assertEquals(response.status_code, 201)
         self.assertEquals(Dish.objects.count(), 1, 'New dish record not created')
@@ -56,7 +56,7 @@ class AddDishWithPictureTests(TestCase):
         pic = create_image(None, 'pic.png')
         pic_file = SimpleUploadedFile('test_pic.png', pic.getvalue())
         required_params.update({'picture': pic_file})
-        response = self.client.post('/api/add_dash', required_params, follow=True)
+        response = self.client.post('/api/add_dish', required_params, follow=True)
 
         self.assertEquals(response.status_code, 201)
         self.assertEquals(Dish.objects.count(), 1, 'New dish record not created')

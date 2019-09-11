@@ -37,14 +37,14 @@ def subtotal(request):
 
 
 @api_view(['POST'])
-def add_dash(request):
+def add_dish(request):
     try:
         if not request.data.get('token') or request.data['token'] != settings.TOKEN:
             raise ValueError('authentication credentials were not provided')
 
         serializer = DishSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        # serializer.save()
         return Response(DishSerializer(Dish.objects.all(), many=True).data, status=status.HTTP_201_CREATED)
     except Exception as e:
         return Response(f"Error: {e}", status=status.HTTP_400_BAD_REQUEST)
