@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Меню</title>
+
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+    </head>
+    <body>
+        <div class="content">
+            <div class="container">
+                <div class="row row-centered">
+                    <div class="col-md-12">
+                        <form action="/subtotal/" method="post">
+                            {% csrf_token %}
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Название</th>
+                                        <th>Калорийность</th>
+                                        <th>Аллергены</th>
+                                        <th>Цена</th>
+                                        <th>pic</th>
+                                        <th>в заказ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% regroup menu by get_category_display as category_list %}
+                                    {% for category_item in category_list %}
+                                        <tr class="success">
+                                            <td colspan="6" style="text-align:center">{{ category_item.grouper }}</td>
+                                        </tr>
+                                        {% for dish in category_item.list %}
+                                            <tr>
+                                                <td>{{ dish.name }}</td>
+                                                <td>{{ dish.calorie }} Ккал.</td>
+                                                <td>
+                                                    {% if dish.allergen.all %}
+                                                        {{ dish.allergen.all|join:", " }}
+                                                    {% else %}
+                                                        Блюдо без аллергенов
+                                                    {% endif %}
+                                                </td>
+                                                <td>{{ dish.price }} $</td>
+                                                <td><img class="media-object" height=60px src="{{dish.picture}}"></td>
+                                                <td><input type="checkbox" name="dish" value={{ dish.id }}></td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <button type="submit" class="btn btn-primary btn-lg btn-block">Оформить заказ</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <title>Subtotal</title>
+        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <div class="center-block col-md-offset-5">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Информация по заказу</h3>
+                    </div>
+                    <div class="panel-body">
+                        <dl>
+                            <dt>Сумма:</dt>
+                            <dl>{{ summ }}$</dl>
+                            <dt>Список блюд:</dt>
+                            {% if allergen_list %}
+                                <dl>{{ dish_list|join:", " }}</dl>
+                            {% else %}
+                                <dl>Блюда не выбраны</dl>
+                            {% endif %}
+                            <dt>Список аллергенов в блюдах:</dt>
+                            {% if allergen_list %}
+                                <dl>{{ allergen_list|join:", " }}</dl>
+                            {% else %}
+                                <dl>в выбранных блюдах нет аллергенов</dl>
+                            {% endif %}
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
