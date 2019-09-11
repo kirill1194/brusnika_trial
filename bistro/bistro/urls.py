@@ -22,4 +22,5 @@ urlpatterns = [
     path('admin/',              admin.site.urls),
     url(r'^$',                  views.get_menu),
     url(r'^subtotal/$',         views.subtotal),
+    url(r'^api/add_dash$',      views.add_dash),
 ]

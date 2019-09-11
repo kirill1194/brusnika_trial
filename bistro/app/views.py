@@ -1,6 +1,11 @@
 from django.shortcuts import render
+
 from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+
 from app.models import Dish, Allergen
+from app.serializers import DishSerializer
 
 
 def get_menu(request):
@@ -19,13 +24,23 @@ def subtotal(request):
     dish_list = []
     allergen_list = []
 
-    if dish_ids:
-        for dish in dish_items:
-            summ.append(dish.price)
-            dish_list.append(dish.name)
-            if dish.allergen.exclude():
-                [allergen_list.append(allergen.name) for allergen in dish.allergen.all()]
+    for dish in dish_items:
+        summ.append(dish.price)
+        dish_list.append(dish.name)
+        if dish.allergen.exclude():
+            [allergen_list.append(allergen.name) for allergen in dish.allergen.all()]
 
     return render(request, 'subtotal.html', {'summ': sum(summ),
                                              'dish_list': dish_list,
                                              'allergen_list': allergen_list if allergen_list else None})
+
+
+@api_view(['POST'])
+def add_dash(request):
+    try:
+        serializer = DishSerializer(data=request.data)
+        serializer.is_valid()
+        serializer.save()
+        return Response(DishSerializer(Dish.objects.all(), many=True).data, status=status.HTTP_201_CREATED)
+    except Exception as e:
+        return Response(f"Error: {e}", status=status.HTTP_400_BAD_REQUEST)
