@@ -123,3 +123,5 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, '/static/')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"),]
+
+TOKEN = "93138ba960dfb4ef2eef6b907718ae04400f606a"

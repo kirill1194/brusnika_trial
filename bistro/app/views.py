@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.conf import settings
 
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -38,6 +39,9 @@ def subtotal(request):
 @api_view(['POST'])
 def add_dash(request):
     try:
+        if not request.data.get('token') or request.data['token'] != settings.TOKEN:
+            raise ValueError('authentication credentials were not provided')
+
         serializer = DishSerializer(data=request.data)
         serializer.is_valid()
         serializer.save()
