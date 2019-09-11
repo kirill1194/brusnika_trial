@@ -35,7 +35,7 @@ class DishSerializer(serializers.ModelSerializer):
                                              required=False)
     category = serializers.IntegerField(required=False, allow_null=True)
     price = serializers.IntegerField(required=False)
-    picture = serializers.ImageField()
+    picture = serializers.ImageField(required=False)
 
     def create(self, validated_data):
         allergen_data = validated_data.pop('allergen')

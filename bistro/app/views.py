@@ -43,7 +43,7 @@ def add_dash(request):
             raise ValueError('authentication credentials were not provided')
 
         serializer = DishSerializer(data=request.data)
-        serializer.is_valid()
+        serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(DishSerializer(Dish.objects.all(), many=True).data, status=status.HTTP_201_CREATED)
     except Exception as e:
