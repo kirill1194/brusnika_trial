@@ -1,0 +1,14 @@
+version: "3"
+services:
+
+  django:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bistro_django
+    volumes:
+      - $PWD/bistro:/bistro
+    ports:
+      - "8000:8000"
+    working_dir: /bistro/
+    command: python manage.py runserver 0.0.0.0:8000
